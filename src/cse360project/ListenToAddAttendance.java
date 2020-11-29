@@ -7,11 +7,11 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class ListenToAdd implements ActionListener {
+public class ListenToAddAttendance implements ActionListener {
     private JFrame frame;
     private ListenToLoad l;
 
-    public ListenToAdd(JFrame frame, ListenToLoad l) {
+    public ListenToAddAttendance(JFrame frame, ListenToLoad l) {
         this.frame = frame;
         this.l = l;
     }
@@ -57,8 +57,14 @@ public class ListenToAdd implements ActionListener {
                         asurite = "" + l.getModel().getValueAt(index, 5);
                         for (int index2 = 0; index2 < depth; index2++) {
                             if (asurite.equals(newData[index2][0])) {
-                                l.getModel().setValueAt(newData[index2][1], index, 6);
-                                unused[index2] = null;
+                                if (l.getModel().getValueAt(index, 6) != null) {
+                                    l.getModel().setValueAt(Integer.parseInt(newData[index2][1]) + Integer.parseInt(("" + l.getModel().getValueAt(index, 6))), index, 6);
+                                    unused[index2] = null;
+                                }
+                                else {
+                                    l.getModel().setValueAt(newData[index2][1], index, 6);
+                                    unused[index2] = null;
+                                }
                             }
                         }
                     }
@@ -79,10 +85,8 @@ public class ListenToAdd implements ActionListener {
                     JFrame newFrame = new JFrame("");
                     JOptionPane.showMessageDialog(newFrame, "Data loaded from " + count2 + " users in the roster.\n" + count1 + " additional attendees were found:" +
                             "\n" + ret + "");
-                } catch (FileNotFoundException fileNotFoundException) {
+                } catch (IOException fileNotFoundException) {
                     fileNotFoundException.printStackTrace();
-                } catch (IOException ioexecption) {
-                    ioexecption.printStackTrace();
                 }
             }
         }

@@ -33,7 +33,7 @@ public class Main extends JFrame {
         load = new JMenuItem("Load a Roster");
         load.addActionListener(l);
         addAttendance = new JMenuItem("Add Attendance");
-        addAttendance.addActionListener(new ListenToAdd(frame, l));
+        addAttendance.addActionListener(new ListenToAddAttendance(frame, l));
         save = new JMenuItem("Save");
         save.addActionListener(new ListenToSave(frame, l));
         plot = new JMenuItem("Plot Data");
