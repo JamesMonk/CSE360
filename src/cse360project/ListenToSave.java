@@ -31,12 +31,13 @@ public class ListenToSave implements ActionListener {
                 file.createNewFile();
             }
 
-            /** Write to the file
+            /**
+             * Write to the file
              *  - copy an entire line to str
              *  - write str to the file
              *  - reset str to ""
              *  - flush the buffer
-             *
+             *  - repeat until there are no more lines to read
              */
             for (int i = 0; i < l.getModel().getRowCount(); i++) {
                 for (int j = 0; j < l.getModel().getColumnCount(); j++) {
@@ -48,6 +49,7 @@ public class ListenToSave implements ActionListener {
 
             }
 
+            //Close the buffer at the end
             bw.close();
         } catch (IOException ioException) {
             ioException.printStackTrace();

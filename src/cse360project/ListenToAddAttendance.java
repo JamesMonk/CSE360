@@ -27,20 +27,26 @@ public class ListenToAddAttendance implements ActionListener {
         int returnValue = fileChooser.showOpenDialog(null);
 
         String oneLine = "";
-        String asurite = "";
         int depth = 0, ii = 0, i = 0;
         String[][] newData;
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             if (selectedFile.getName().endsWith("csv")) {
                 try {
+                    //Read in the file to the BufferedReader
                     BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
+
+                    //Get the depth (number of lines) of the csv file
                     while ((oneLine = reader.readLine()) != null) {
                         depth++;
                     }
                     String[] unused = new String[depth];
                     newData = new String[depth][2];
+
+                    //Reset the BufferedReader
                     reader = new BufferedReader(new FileReader(selectedFile));
+
+                    //Get each line, split at ",", add each token to newRow
                     while ((oneLine = reader.readLine()) != null) {
                         String[] newRow = new String[2];
                         ii = 0;
@@ -48,15 +54,27 @@ public class ListenToAddAttendance implements ActionListener {
                             newRow[ii] = token;
                             ii++;
                         }
+
+                        //Add newRow as a new row to newData, copy into unused
                         newData[i] = newRow;
                         unused[i] = newRow[0];
-
                         i++;
                     }
-                    i = 0;
+
+
+                    String asurite = "";
+
+                    //Add a new column to the table for the attendance
                     if (l.getModel().getColumnCount() == 6) {
                         l.getModel().addColumn(date);
                     }
+
+                    /**
+                     * Go through each row of the table and look for ASURITE matches in the new csv file
+                     *  - If a match is found, either put attendance time into the new column,
+                     *    or if there already is a value there, merge the values by adding them together
+                     *  - set the indices that had matches in unused to null
+                     */
                     for (int index = 0; index < l.getDepth(); index++) {
                         asurite = "" + l.getModel().getValueAt(index, 5);
                         for (int index2 = 0; index2 < depth; index2++) {
@@ -73,6 +91,11 @@ public class ListenToAddAttendance implements ActionListener {
                     }
                     String ret = "";
                     int count1 = 0, count2 = 0, row = 0;
+
+                    /**
+                     * Go through unused and look for elements that aren't null
+                     * If found, include it in the dialogue box
+                     */
                     for (String element : unused) {
                         try {
                             if (!element.equals(null)) {
@@ -85,6 +108,8 @@ public class ListenToAddAttendance implements ActionListener {
                         }
                         row++;
                     }
+
+                    //Create the dialogue box and display just gathered
                     JFrame newFrame = new JFrame("");
                     JOptionPane.showMessageDialog(newFrame, "Data loaded from " + count2 + " users in the roster.\n" + count1 + " additional attendees were found:" +
                             "\n" + ret + "");

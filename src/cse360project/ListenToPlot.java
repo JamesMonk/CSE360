@@ -16,10 +16,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ListenToPlot extends JFrame implements ActionListener {
-    private JFrame frame;
-    private XYDataset dataset;
     private final DefaultTableModel model;
     private final ListenToLoad l;
+    private JFrame frame;
+    private XYDataset dataset;
 
     public ListenToPlot(ListenToLoad l) {
         this.l = l;
