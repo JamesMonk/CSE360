@@ -3,14 +3,14 @@ package cse360project;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class ListenToAddAttendance implements ActionListener {
-    private JFrame frame;
-    private ListenToLoad l;
+    private final JFrame frame;
+    private final ListenToLoad l;
 
     public ListenToAddAttendance(JFrame frame, ListenToLoad l) {
         this.frame = frame;
@@ -21,7 +21,6 @@ public class ListenToAddAttendance implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         //Get the date from the user
         String date = JOptionPane.showInputDialog(null, "Enter the Date:");
-        Scanner scanner = new Scanner(System.in);
 
         //Get the file from the user
         JFileChooser fileChooser = new JFileChooser();
@@ -56,8 +55,6 @@ public class ListenToAddAttendance implements ActionListener {
                     }
                     i = 0;
                     if (l.getModel().getColumnCount() == 6) {
-//                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd");
-//                        LocalDateTime now = LocalDateTime.now();
                         l.getModel().addColumn(date);
                     }
                     for (int index = 0; index < l.getDepth(); index++) {
@@ -67,8 +64,7 @@ public class ListenToAddAttendance implements ActionListener {
                                 if (l.getModel().getValueAt(index, 6) != null) {
                                     l.getModel().setValueAt(Integer.parseInt(newData[index2][1]) + Integer.parseInt(("" + l.getModel().getValueAt(index, 6))), index, 6);
                                     unused[index2] = null;
-                                }
-                                else {
+                                } else {
                                     l.getModel().setValueAt(newData[index2][1], index, 6);
                                     unused[index2] = null;
                                 }
@@ -76,18 +72,18 @@ public class ListenToAddAttendance implements ActionListener {
                         }
                     }
                     String ret = "";
-                    int count1 = 0, count2 = 0, a = 0;
+                    int count1 = 0, count2 = 0, row = 0;
                     for (String element : unused) {
                         try {
                             if (!element.equals(null)) {
-                                ret = ret + element + " connected for " + newData[a][1] + " minutes\n";
+                                ret = ret + element + " connected for " + newData[row][1] + " minutes\n";
                                 count1++;
 
                             }
                         } catch (NullPointerException exception) {
                             count2++;
                         }
-                        a++;
+                        row++;
                     }
                     JFrame newFrame = new JFrame("");
                     JOptionPane.showMessageDialog(newFrame, "Data loaded from " + count2 + " users in the roster.\n" + count1 + " additional attendees were found:" +

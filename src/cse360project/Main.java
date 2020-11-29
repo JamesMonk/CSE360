@@ -3,15 +3,18 @@ package cse360project;
 
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.JFrame;
 
 
 public class Main extends JFrame {
     private JPanel p;
     private JButton test;
-    private JMenuBar menuBar;
-    private JMenu file;
-    private JMenuItem load, addAttendance, save, plot, about;
+    private final JMenuBar menuBar;
+    private final JMenu file;
+    private final JMenuItem load;
+    private final JMenuItem addAttendance;
+    private final JMenuItem save;
+    private final JMenuItem plot;
+    private final JMenuItem about;
 
     public Main() {
 //        JFrame.setDefaultLookAndFeelDecorated(true);

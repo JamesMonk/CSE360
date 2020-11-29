@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 public class ListenToLoad implements ActionListener {
-    private JFrame frame;
+    private final JFrame frame;
     private int depth;
     private JTable table;
     private DefaultTableModel model;
@@ -63,6 +63,7 @@ public class ListenToLoad implements ActionListener {
             }
         }
     }
+
     public int getDepth() {
         return depth;
     }
