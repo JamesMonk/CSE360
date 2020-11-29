@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 public class ListenToAddAttendance implements ActionListener {
     private JFrame frame;
@@ -18,8 +19,14 @@ public class ListenToAddAttendance implements ActionListener {
 
 
     public void actionPerformed(ActionEvent e) {
+        //Get the date from the user
+        String date = JOptionPane.showInputDialog(null, "Enter the Date:");
+        Scanner scanner = new Scanner(System.in);
+
+        //Get the file from the user
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
+
         String oneLine = "";
         String asurite = "";
         int depth = 0, ii = 0, i = 0;
@@ -49,9 +56,9 @@ public class ListenToAddAttendance implements ActionListener {
                     }
                     i = 0;
                     if (l.getModel().getColumnCount() == 6) {
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd");
-                        LocalDateTime now = LocalDateTime.now();
-                        l.getModel().addColumn(dtf.format(now));
+//                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd");
+//                        LocalDateTime now = LocalDateTime.now();
+                        l.getModel().addColumn(date);
                     }
                     for (int index = 0; index < l.getDepth(); index++) {
                         asurite = "" + l.getModel().getValueAt(index, 5);
